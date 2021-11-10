@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="arushgupta123">
+    <title>Catching Game</title>
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.4.0/lib/p5.js"></script>
+</head>
+<body>
+    <div id="p5_loading" class="loadingclass"></div>
+
+    <script>
+        
+
+    
+        let screen = 0;
+let score = 0;
+let ballX = 200;
+let ballY = -20;
+let ballYIncrement = 2
+
+function setup() {
+  createCanvas(800, 500);
+}
+
+function draw() {
+    background(220);
+    if (screen == 0) {
+        startScreen()
+      } else if(screen == 1) {
+        GamePlay()
+      } else if(screen == 2) {
+        GameOver();
+        //console.log("Game oer")
+      }
+}
+  
+function startScreen() {
+    background(27, 132, 245)
+    fill(255)
+    textAlign(CENTER)
+    text("Catching game, control the gloves with your mouse and get under the ball to catch", width/2, height/2)
+    text("Click anywhere in the game canvas to start", width/2, height/2 + 20)
+  
+  if(mouseIsPressed) {
+       screen = screen + 1;
+       console.log(screen)
+     }
+}
+
+function GamePlay() {
+  
+  //display scores
+  
+  text(`Score: ${score}`, 30, 40)
+  text(`FPS: ` + frameRate(), 80, 60)
+  text(`FPS (rounded): ` + Math.round(frameRate()), 70, 90)
+  
+  fill(0,0,0)
+  rectMode(CENTER)
+  let gloves = rect(mouseX, 500 - 30, 60, 30)
+  
+  let ball = circle(ballX, ballY, 30)
+  
+  ballY += ballYIncrement;
+  
+  if(ballY>height){
+  	screen =2
+    console.log(score)
+	 }
+  if(ballY>height-10 && ballX>mouseX-20 && ballX<mouseX+20){
+  	ballY=-20
+    ballYIncrement+=.5
+    score+= 1
+    console.log(score)
+  }
+	if(ballY==-20){
+  	RandomIndex();
+      console.log(score)
+  }
+}
+
+function RandomIndex() {
+    ballX = random(50, width-50)
+}
+
+function GameOver() {
+  //console.log("Game over function is responding..");
+  background(27, 132, 245);
+  
+  //display scores here
+  
+  fill(255, 255, 255)
+  textAlign(CENTER);
+  text(`Your score was ${score}`, width/2, height/2)
+  text("Click anwhere in the game canvas to play again, you may need to refresh if it doesn't work", width/2, height/2 + 20)
+  
+  if(mouseIsPressed) {
+    startScreen()
+  }
+  
+}
+
+
+
+
+    </script>
+</body>
+</html>
